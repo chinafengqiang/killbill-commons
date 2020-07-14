@@ -43,6 +43,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.BatchChunkSize;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import com.fasterxml.classmate.members.ResolvedMethod;
+import com.google.common.collect.Iterators;
 import net.sf.cglib.proxy.MethodProxy;
 
 class BatchHandler extends CustomizingStatementHandler
@@ -164,27 +165,7 @@ class BatchHandler extends CustomizingStatementHandler
                 foundIterator = true;
             }
             else {
-                extras.add(new Iterator()
-                           {
-                               @Override
-                               public boolean hasNext()
-                               {
-                                   return true;
-                               }
-
-                               @Override
-                               public Object next()
-                               {
-                                   return arg;
-                               }
-
-                               @Override
-                               public void remove()
-                               {
-                                   // NOOP
-                               }
-                           }
-                          );
+                extras.add(Iterators.singletonIterator(arg));
             }
         }
 
